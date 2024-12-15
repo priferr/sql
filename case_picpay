@@ -1,0 +1,19 @@
+-- verificando linhas duplicadas
+
+-- unindo as consultas à base
+
+SELECT *, 
+    CASE 
+      WHEN name LIKE '%Black e Platinum%' THEN 'Black e Platinum'
+      WHEN name LIKE '%Gold%' THEN 'Gold' ELSE 'Outro' END AS card_type,
+    CASE
+      WHEN name LIKE '%Alta%' THEN 'Alta'
+      WHEN name LIKE '%Media%' THEN 'Media' ELSE 'Null' END AS tendency,
+    CASE 
+      WHEN finish_response_created_at = 'null' THEN CAST('0' AS INT)
+      ELSE CAST('1' AS INT) END AS flag_active_lead,
+    CASE
+      WHEN date_prod = 'null' THEN CAST('0' AS INT)
+      ELSE CAST('1' AS INT) END AS flag_conversion,
+    TIMESTAMP_DIFF(SAFE_CAST(date_prod AS DATE), start_event_at, day) AS conversion_time
+FROM `main-aura-444422-r6.lead_cartao_credito.tb_lead_cartao_credito`
